@@ -16,8 +16,4 @@ def stringEx(UserIn):
     print(UserIn.strip()) #Removes white space from front and back
     print(len(UserIn)) #Returns # of charaters in string
     print(UserIn.replace(UserIn[0], UserIn[1])) #replaces things
-    
-
-
-
 stringEx(firstCall)
