@@ -17,3 +17,9 @@ def stringEx(UserIn):
     print(len(UserIn)) #Returns # of charaters in string
     print(UserIn.replace(UserIn[0], UserIn[1])) #replaces things
 stringEx(firstCall)
+
+#Array vs list:
+#Array stores large data easy and can do arithmatic
+#list is easier to write but cannot do arithmatic and is not so data compact
+#myArray = array([1, 2, 3])
+#myList = [1, 2, 3]
