@@ -5,7 +5,6 @@ height = 1
 #startup program
 def startUp():
     print("Welcome to Josh's Staircase building program! \n Please input a positve number or type 'Help' for commands!")
-    return
 
 def modHeight():
     print("What do you want the height to be?")
@@ -44,10 +43,10 @@ def getInput(UserIn):
     if UserIn == None:
         return True
     #Exit Script
-    elif UserIn.lower() == "exit":
+    elif "exit" in UserIn.lower():
         return False
     #Help Script
-    elif UserIn.lower() == "help":
+    elif "help" in UserIn.lower():
         helpComand()
         return True
     #call Width Script

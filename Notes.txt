@@ -1,0 +1,4 @@
+Set = set()       | Unordered, non-repeating list.
+List == []        | List of items, can be any item.
+Tuple == ()       | Non-changeable list essentially
+Dictionary == {}  | Collection of keys and their values
