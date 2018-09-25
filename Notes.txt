@@ -1,4 +1,35 @@
+Data storage types.
+
 Set = set()       | Unordered, non-repeating list.
 List == []        | List of items, can be any item.
 Tuple == ()       | Non-changeable list essentially
 Dictionary == {}  | Collection of keys and their values
+-------------------------------------------------------------
+
+Data types
+
+Bool              |  True/False
+int               | all whole numbers
+float             | anything with decimal
+str               | "" or ''
+comples           | 1 + 3i
+-------------------------------------------------------------
+Messing with files
+
+with open('fileName.ext', mode='') as placeHolder/variable:
+    do this
+things to do:
+    .read()
+    .write()
+    
+//////////////////////
+    Modes:
+      a       | Append
+      w       | Write / override / new file
+      r       | Read
+      r+      | Read THEN Write
+      w+      | Write THEN Read (Create / override file)
+
+
+
+-------------------------------------------------------------
