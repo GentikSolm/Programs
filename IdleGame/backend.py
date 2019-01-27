@@ -11,8 +11,8 @@ cosmets = ["->", "~>", "\\\\", "::", "$>", "|#>"]
 currentCosmet = cosmets[0]
 userInput = None
 costRedPrice = ((costRedLevel+1)**2) * 1000
-moneyPCPrice = ((moneyManipLevel+1)**2) *1000
-cosmetPrice = (totalCosmet+1) **3 * 1000
+moneyPCPrice = (((moneyManipLevel+1)**2) *1000) * costRed
+cosmetPrice = ((totalCosmet+1) **3 * 1000) * costRed
 
 def startUp():
     with open("saveData.txt",mode='r') as Data:
@@ -49,13 +49,25 @@ def upgradeClick():
         money = money - moneyPCPrice
         moneyManipLevel += 1
         moneyPC = moneyManipLevel **2
-        moneyPCPrice = ((moneyManipLevel+1)**2) *1000
+        moneyPCPrice = (((moneyManipLevel+1)**2) *1000) * costRed
         print("You now earn {} per click!".format(moneyPC))
     else:
         print("You dont have enough money for that!")
 
 def upgradeCostRed():
-    pass
+    global costRed
+    global money
+    global costRedLevel
+    global costRedPrice
+    if money >= costRedPrice and costRedLevel >= 5:
+        money = money - costRedPrice
+        costRedLevel += 1
+        costRed = costRedLevel * .1
+        costRedPrice = ((costRedLevel+1)**2) * 1000
+    elif costRedLevel == 5:
+        print("Youve reached max level here!")
+    else:
+        print("You dont have enough money!")
 
 def upgradeCosmet():
     pass
