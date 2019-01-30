@@ -1,0 +1,3 @@
+# 1) Grab all user inputs and store as variables
+2) create XML file, and write all data
+3) Make it editable
