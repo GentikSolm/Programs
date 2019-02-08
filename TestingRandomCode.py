@@ -1,4 +1,3 @@
-import os
-path = "D:\School\Sylabus"
-path = path.replace("\\","\\\\")
-print(path)
+mytext = "Hello.cdg - Goodbye.mp3"
+splitText = mytext.split(" - ")
+print(splitText[1][:-4])
