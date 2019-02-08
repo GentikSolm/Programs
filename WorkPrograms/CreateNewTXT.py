@@ -114,5 +114,7 @@ def callwhichfun(FileKindNum):
     return
 #Calling all functions.
 AskFileInfo()
+#rename files for bad characters
+
 callwhichfun(FileKind)
 print("Done!")
