@@ -1,3 +1,6 @@
-mytext = "Hello.cdg - Goodbye.mp3"
-splitText = mytext.split(" - ")
-print(splitText[1][:-4])
+import os
+global FileList
+FileList = []
+for (root,dirs,files) in os.walk("E:\\01331 (Title-Artist) (8-GB)"):
+    FileList = FileList + files
+print(sorted(FileList))
