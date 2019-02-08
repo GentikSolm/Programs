@@ -11,7 +11,7 @@ def AskFileInfo():
     FileName = input("File Name?\n-> ")
     #Grabs Song Number
     global SongNumber
-    Songnumber = ""
+    SongNumber = ""
     #SongNumber = input("Starting Song Number? (Press Enter for default)\n-> ")
     if SongNumber == "":
         SongNumber = 10000
