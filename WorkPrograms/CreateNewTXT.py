@@ -24,15 +24,18 @@ def AskFileInfo():
     FileKind = input("What kind of file do you want to make?\n0 -> MP3 songlist\n1 -> 787 txt file\n-> ")
     return
 
-
+#Function for MP3 Song Book
 def createMp3txtFile(InPath):
+    #Mostly same as what is in 787 code, see line
     global FileList
     FileList = []
     for (root,dirs,files) in os.walk(InPath):
         FileList = FileList + files
     NewSongFile = open(FileName+'.txt', mode='w')
+    #Song number counter
     global i
     i = 0
+    #For loop generation of
     for entry in sorted(FileList):
         if 'mp3' in entry:
             i +=1
@@ -42,7 +45,7 @@ def createMp3txtFile(InPath):
             NewSongFile.write('{0}|{1}\n'.format(Snum, Fname))
     NewSongFile.close()
     return
-
+#Function for 787 txt file
 def create787TxtDoc(InPath):
     #Counter for File location in folder
     i = 0
