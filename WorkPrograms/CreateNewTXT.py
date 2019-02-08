@@ -38,8 +38,8 @@ def createMp3txtFile(InPath):
             i +=1
             num = 100000 + i
             Snum = str(num)[1:]
-            Fname = entry[:-4]
-            NewSongFile.write('{0}:{1}\n'.format(Snum, Fname))
+            Fname = entry[:-4].replace(" - ","|")
+            NewSongFile.write('{0}|{1}\n'.format(Snum, Fname))
     NewSongFile.close()
     return
 
@@ -86,28 +86,30 @@ def create787TxtDoc(InPath):
     NewSongFile.close()
     return
 
-def replaceBackslash():
+def replaceChar():
     #This, im not actually sure if its required, more less to be safe.
     #Also, if you want to replace anything in the text doc, here is the place to do it.
     global TextString
-    Textfile = open(FileName + '.txt', mode='r')
-    TextString = Textfile.read()
+    TextfileRead = open(FileName + '.txt', mode='r')
+    TextString = TextfileRead.read()
     #If you want to replace anything else, here is where it would go.
     #TextString = TextString.replace("><","\\")
-    Textfile.close()
-    Textfile = open(FileName + '.txt', mode='w')
-    Textfile.write(TextString)
-    Textfile.close()
+    TextfileRead.close()
+    TextfileWrite = open(FileName + '.txt', mode='w')
+    TextfileWrite.write(TextString)
+    TextfileWrite.close()
     return
 def callwhichfun(FileKindNum):
     if FileKindNum == "0":
         createMp3txtFile(FilePath)
-        #replaceBackslash()
+        #replaceChar()
     elif FileKindNum == "1":
         create787TxtDoc(FilePath)
-        replaceBackslash()
+        #replaceChar()
     else:
         print('I dont understand! Please input 0 or 1!')
+    return
+#Calling all functions.
 AskFileInfo()
 callwhichfun(FileKind)
-#Calling all functions.
+print("Done!")
