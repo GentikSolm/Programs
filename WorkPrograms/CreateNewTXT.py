@@ -1,4 +1,5 @@
 import os
+import sys
 
 def AskFileInfo():
 
@@ -23,7 +24,6 @@ def AskFileInfo():
     global FileKind
     FileKind = input("What kind of file do you want to make?\n0 -> MP3 songlist\n1 -> 787 txt file\n-> ")
     return
-
 #Function for MP3 Song Book
 def createMp3txtFile(InPath):
     #Mostly same as what is in 787 code, see line
@@ -35,8 +35,14 @@ def createMp3txtFile(InPath):
     #Song number counter
     global i
     i = 0
-    #For loop generation of
+    #For loop generation of mp3 file list
+    loadBar(FileList)
+    count = 0
     for entry in sorted(FileList):
+        count += percent
+        if count >= 1:
+            count = 0
+            moveBar()
         if 'mp3' in entry:
             i +=1
             num = 100000 + i
@@ -44,27 +50,34 @@ def createMp3txtFile(InPath):
             Fname = entry[:-4].replace(" - ","|")
             NewSongFile.write('{0}|{1}\n'.format(Snum, Fname))
     NewSongFile.close()
+    print("")
     return
 #Function for 787 txt file
 def create787TxtDoc(InPath):
     #Counter for File location in folder
     i = 0
     """
-    Filelist is the parent list of all the file names in every folder. os.walk() seperates all files in each folder into their own list,
+    FileList is the parent list of all the file names in every folder. os.walk() seperates all files in each folder into their own list,
     therefore when plugged into the for loop, get combined into a master list to be sorted and used later in function
     """
-    #Creating Filelist
-    global Filelist
-    Filelist = []
+    #Creating FileList
+    global FileList
+    FileList = []
     #Finding all files, and making Master list
     for (root,dirs,files) in os.walk(InPath):
-        Filelist = Filelist + files
+        FileList = FileList + files
     #Opening txt file and writing info to it
     NewSongFile = open(FileName + '.txt', mode='w')
     #This is the header in the text document
     NewSongFile.write("Songnum	Nation	Songtype	Language	Title	Singer\n")
     #This starts the recusion through the list, in order, creating each line of the text doc.
-    for entry in sorted(Filelist):
+    loadBar(FileList)
+    count = 0
+    for entry in sorted(FileList):
+        count += percent
+        if count >= 1:
+            count = 0
+            moveBar()
         nation = "2"
         songType = "8"
         language = "2"
@@ -87,21 +100,22 @@ def create787TxtDoc(InPath):
             pass
     #Closing the text doc
     NewSongFile.close()
+    print("")
     return
-
-def replaceChar():
-    #This, im not actually sure if its required, more less to be safe.
-    #Also, if you want to replace anything in the text doc, here is the place to do it.
-    global TextString
-    TextfileRead = open(FileName + '.txt', mode='r')
-    TextString = TextfileRead.read()
-    #If you want to replace anything else, here is where it would go.
-    #TextString = TextString.replace("><","\\")
-    TextfileRead.close()
-    TextfileWrite = open(FileName + '.txt', mode='w')
-    TextfileWrite.write(TextString)
-    TextfileWrite.close()
-    return
+#This will be useless
+# def replaceChar():
+#     #This, im not actually sure if its required, more less to be safe.
+#     #Also, if you want to replace anything in the text doc, here is the place to do it.
+#     global TextString
+#     TextfileRead = open(FileName + '.txt', mode='r')
+#     TextString = TextfileRead.read()
+#     #If you want to replace anything else, here is where it would go.
+#     #TextString = TextString.replace("><","\\")
+#     TextfileRead.close()
+#     TextfileWrite = open(FileName + '.txt', mode='w')
+#     TextfileWrite.write(TextString)
+#     TextfileWrite.close()
+#     return
 def callwhichfun(FileKindNum):
     if FileKindNum == "0":
         createMp3txtFile(FilePath)
@@ -112,9 +126,28 @@ def callwhichfun(FileKindNum):
     else:
         print('I dont understand! Please input 0 or 1!')
     return
+def loadBar(size):
+    global length
+    length = 30
+    global percent
+    percent = length/len(size)
+    print("Writing to file")
+    sys.stdout.write("[{0}]".format(" " * (length)))
+    sys.stdout.flush()
+    sys.stdout.write("\b" * (length))
+def moveBar():
+    sys.stdout.write('\b->')
+    sys.stdout.flush()
+def FileSorter():
+    pass
+def PDFCreator():
+    pass
+
+
+
 #Calling all functions.
+
 AskFileInfo()
 #rename files for bad characters
-
 callwhichfun(FileKind)
 print("Done!")
