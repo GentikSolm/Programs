@@ -10,7 +10,15 @@ def WhereFilePath():
 # Book maker must be seperable from file sorter! Also, File FileSorter
 #    Must have option to Not create sub folders
 #FileList = list(string.ascii_lowercase)
-def FileSorter(FilePath):
+def GetUpperFilePath(PathInput):
+    global upperFilePath
+    ListupperFilePath = PathInput.split("\\")
+    if ListupperFilePath[0] == ListupperFilePath[-2]:
+        return ListupperFilePath[-2]+"\\"
+    else:
+        return ListupperFilePath[-2]
+
+def FileSorter(FilePath,ReqSub):
 
     """
     SOLVED
@@ -19,30 +27,38 @@ def FileSorter(FilePath):
     also, Create folder in same area as specefied folder, then create its sub folders as needed as transfer of songs start.
 
     """
-
-
-
-
-
-    tmpfolder = FilePath+"\\TMPSONGHOLD"
-    shutil.rmtree(tmpfolder)
-    os.mkdir(tmpfolder)
+    global sortedSongList
+    sortedSongList = []
+    os.mkdir(GetUpperFilePath(FilePathInput))
+    countForBreak = 0
     for folderName, subfolders, filenames in os.walk(FilePath):
+        countForBreak += 1
+        if countForBreak == 2:
+            print("Success!")
+            break
+        print("Loading songs into TempList")
         loadBar(filenames)
         count = 0
         for file in filenames:
+            #Moving Progress bar
             count += percent
             if count >= 1:
                 count = 0
                 moveBar()
-            #print(folderName+"\\"+file)
+            #Adding files to sortedSongList
             if ".cdg" or ".mp3" in file:
-                try:
-                    shutil.move(folderName+"\\"+file,tmpfolder)
-                except:
-                    print("Moving of "+folderName+"\\"+file+ " Failed!")
+                sortedSongList.append(folderName+"\\"+file,tmpfolder)
+    if ReqSub == True:
+        moveToFOlders(ReqSub)
+    elif ReqSub == False:
+        moveToFOlders(ReqSub)
+    else:
+        print("Invalid input, Defaulting to no sub folders.")
+    sortedSongList.sort()
     print("\nDone!")
 
+def moveToFOlders(reqSub):
+    pass
 
 def loadBar(size):
     global length
@@ -54,8 +70,8 @@ def loadBar(size):
     sys.stdout.flush()
     sys.stdout.write("\b" * (length))
 def moveBar():
-    sys.stdout.write('\b->')
+    sys.stdout.write('\b=>')
     sys.stdout.flush()
 
 WhereFilePath()
-FileSorter(FilePathInput)
+FileSorter(FilePathInput,True)

@@ -102,20 +102,6 @@ def create787TxtDoc(InPath):
     NewSongFile.close()
     print("")
     return
-#This will be useless
-# def replaceChar():
-#     #This, im not actually sure if its required, more less to be safe.
-#     #Also, if you want to replace anything in the text doc, here is the place to do it.
-#     global TextString
-#     TextfileRead = open(FileName + '.txt', mode='r')
-#     TextString = TextfileRead.read()
-#     #If you want to replace anything else, here is where it would go.
-#     #TextString = TextString.replace("><","\\")
-#     TextfileRead.close()
-#     TextfileWrite = open(FileName + '.txt', mode='w')
-#     TextfileWrite.write(TextString)
-#     TextfileWrite.close()
-#     return
 def callwhichfun(FileKindNum):
     if FileKindNum == "0":
         createMp3txtFile(FilePath)

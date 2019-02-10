@@ -1,5 +1,10 @@
-import os
-for folderName, subfolders, filenames in os.walk("E:\\01331 (Title-Artist) (8-GB)"):
-    #print(folderName+"\\"+subfolders+"\\"+filenames)
-    for file in filenames:
-        print(folderName+"\\"+file)
+def testfunc():
+    e = 0
+    for a in range(10):
+        e = e + 1
+        print(e)
+        if e == 2:
+            break
+    print("Hello")
+    print(e)
+testfunc()
