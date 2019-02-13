@@ -21,8 +21,7 @@ def GetUpperFilePath(PathInput):
 def FileSorter(FilePath,ReqSub):
 
     """
-    SOLVED
-
+    SOLVED:
     Create array of file paths that need to be moved, then move that array to specefied folder inside origin, then sort.
     also, Create folder in same area as specefied folder, then create its sub folders as needed as transfer of songs start.
 

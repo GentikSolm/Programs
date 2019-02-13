@@ -38,7 +38,6 @@ def helpFunc():
     commands = ["Help", "Upgrade", "Exit", "Money", "Restart", "Save"]
     for i in commands:
         print("{}".format(i))
-
 def upgradeClick():
     global money
     global moneyPCPrice
@@ -53,7 +52,6 @@ def upgradeClick():
         print("You now earn {} per click!".format(moneyPC))
     else:
         print("You dont have enough money for that!")
-
 def upgradeCostRed():
     global costRed
     global money
@@ -68,10 +66,8 @@ def upgradeCostRed():
         print("Youve reached max level here!")
     else:
         print("You dont have enough money!")
-
 def upgradeCosmet():
     pass
-
 def checkIn(userInput):
     if userInput == None:
         return True
