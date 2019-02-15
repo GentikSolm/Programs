@@ -10,32 +10,36 @@ def WhereFilePath():
 # Book maker must be seperable from file sorter! Also, File FileSorter
 #    Must have option to Not create sub folders
 #FileList = list(string.ascii_lowercase)
+
+def parseInputs(Path, subFiles):
+    #Make sure all inputs are good. Dont want to move the wrong folder / things
+    pass
+
+
+
 def GetUpperFilePath(PathInput):
-    global upperFilePath
+    global ListupperFilePath
     ListupperFilePath = PathInput.split("\\")
-    if ListupperFilePath[0] == ListupperFilePath[-2]:
-        return ListupperFilePath[-2]+"\\"
-    else:
-        return ListupperFilePath[-2]
+    # if ListupperFilePath[0] == ListupperFilePath[-2]:
+    #     return ListupperFilePath[-2]+"\\"
+    # else:
+    return ListupperFilePath[-2]
 
 def FileSorter(FilePath,ReqSub):
-
-    """
-    SOLVED:
-    Create array of file paths that need to be moved, then move that array to specefied folder inside origin, then sort.
-    also, Create folder in same area as specefied folder, then create its sub folders as needed as transfer of songs start.
-
-    """
-    global sortedSongList
     sortedSongList = []
-    os.mkdir(GetUpperFilePath(FilePathInput))
+    try:
+        os.mkdir(GetUpperFilePath(FilePathInput) + "\\New" + ListupperFilePath[-1])
+    except FileExistsError:
+        print("\nERROR\nFolder already exists!\n")
+        pass
+
     countForBreak = 0
     for folderName, subfolders, filenames in os.walk(FilePath):
         countForBreak += 1
         if countForBreak == 2:
-            print("Success!")
+            print("\nSuccess!")
             break
-        print("Loading songs into TempList")
+        print("Loading songs into List")
         loadBar(filenames)
         count = 0
         for file in filenames:
@@ -46,18 +50,30 @@ def FileSorter(FilePath,ReqSub):
                 moveBar()
             #Adding files to sortedSongList
             if ".cdg" or ".mp3" in file:
-                sortedSongList.append(folderName+"\\"+file,tmpfolder)
-    if ReqSub == True:
-        moveToFOlders(ReqSub)
-    elif ReqSub == False:
-        moveToFOlders(ReqSub)
-    else:
-        print("Invalid input, Defaulting to no sub folders.")
-    sortedSongList.sort()
+                sortedSongList.append(folderName+"\\"+file)
+    moveToFolders(sortedSongList, ReqSub)
+    #sortedSongList.sort()
     print("\nDone!")
 
-def moveToFOlders(reqSub):
-    pass
+def moveToFolders(myList, subFoldersNeeded):
+    myList.sort()
+    sys.stdout.write("Writing ")
+    if subFoldersNeeded == True:
+        pass
+    elif subFoldersNeeded == False:
+        pass
+    else:
+        print("Im sorry, i dont understand!")
+        pass
+
+    for i in myList:
+        #print(a)
+        sys.stdout.write(i)
+        sys.stdout.flush()
+        # NEEDS TO BE FIXED
+        sys.stdout.write("\b" * len(i))
+        sys.stdout.flush()
+        #print(i)
 
 def loadBar(size):
     global length
@@ -71,6 +87,8 @@ def loadBar(size):
 def moveBar():
     sys.stdout.write('\b=>')
     sys.stdout.flush()
+
+
 
 WhereFilePath()
 FileSorter(FilePathInput,True)
