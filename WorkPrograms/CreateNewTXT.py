@@ -15,7 +15,7 @@ def AskFileInfo():
     SongNumber = ""
     #SongNumber = input("Starting Song Number? (Press Enter for default)\n-> ")
     if SongNumber == "":
-        SongNumber = 100000
+        SongNumber = 10000
     else:
         SongNumber = int(SongNumber)
     #Grabs File Path
@@ -91,11 +91,11 @@ def create787TxtDoc(InPath):
             artist = splitSentry[1][:-4]
             MP3File = Sentry[:-4]+".mp3"
             #This is the main part of the txt string generation. I formatted it so that it is easier to manipulate :)
-            NewSongFile.write("#{0}\t#{1}\t#{2}\t#{3}\t#{4}\t#{5}\t#N:\\Custom HD787\\{6}\t".format(str(SongNumber + i)[1:], nation, songType, language, title, artist, MP3File ))
+            NewSongFile.write("#{0}\t#{1}\t#{2}\t#{3}\t#{4}\t#{5}\t#{6}\t".format(str(SongNumber + i)[1:], nation, songType, language, title, artist,InPath + "\\" +  MP3File ))
         #This attaches the cdg file to the end of the previous line, and starts a new line.
         elif ".mp3" in Sentry:
             CDGFile = Sentry[:-4]+".cdg"
-            NewSongFile.write("#N:\\Custom HD787\\{0}\n".format(CDGFile))
+            NewSongFile.write("#{0}\n".format(InPath + "\\" + CDGFile))
         else:
             pass
     #Closing the text doc
@@ -129,11 +129,10 @@ def FileSorter():
 def PDFCreator():
     pass
 
-
-
 #Calling all functions.
 
 AskFileInfo()
 #rename files for bad characters
 callwhichfun(FileKind)
 print("Done!")
+Exit = input("Press key to exit.")
