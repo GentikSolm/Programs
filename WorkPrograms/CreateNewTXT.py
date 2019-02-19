@@ -15,7 +15,7 @@ def AskFileInfo():
     SongNumber = ""
     #SongNumber = input("Starting Song Number? (Press Enter for default)\n-> ")
     if SongNumber == "":
-        SongNumber = 10000
+        SongNumber = 100000
     else:
         SongNumber = int(SongNumber)
     #Grabs File Path
