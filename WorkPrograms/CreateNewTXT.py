@@ -124,11 +124,6 @@ def loadBar(size):
 def moveBar():
     sys.stdout.write('\b->')
     sys.stdout.flush()
-def FileSorter():
-    pass
-def PDFCreator():
-    pass
-
 #Calling all functions.
 
 AskFileInfo()
