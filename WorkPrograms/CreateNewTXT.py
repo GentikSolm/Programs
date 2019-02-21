@@ -9,7 +9,7 @@ def AskFileInfo():
     """
     #Grabs Filename
     global FileName
-    FileName = input("File Name?\n-> ")
+    FileName = input("What do you want the txt files name to be?\n-> ")
     #Grabs Song Number
     global SongNumber
     SongNumber = ""
@@ -20,7 +20,7 @@ def AskFileInfo():
         SongNumber = int(SongNumber)
     #Grabs File Path
     global FilePath
-    FilePath = input("Where is the Song Folder Located? (Copy paste from File Explorer)\n-> ")
+    FilePath = input("Where is the Song Folder Located? (Copy paste from File Explorer, then right click on console)\n-> ")
     global FileKind
     FileKind = input("What kind of file do you want to make?\n0 -> MP3 songlist\n1 -> 787 txt file\n-> ")
     return
