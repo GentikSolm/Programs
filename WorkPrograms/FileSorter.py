@@ -53,34 +53,53 @@ def FileSorter(FilePath,ReqSub):
                 sortedSongList.append(folderName+"\\"+file)
             elif ".cdg" not in file.lower() or ".mp3" not in file.lower():
                 ExtraFiles.append(folderName+"\\"+file)
-    moveToFolders(sortedSongList, ReqSub, FilePath, ExtraFiles)
+    copyToFolders(sortedSongList, ReqSub, FilePath, ExtraFiles)
     print("\nDone!")
 
-
-def moveToFolders(myList, subFoldersNeeded,FilePath, anyExtraFiles):
+def copyToFolders(myList, subFoldersNeeded, FilePath, anyExtraFiles):
     myList.sort()
 #NEED TO FINISH THESE STATEMENTS!!!!!!!!!!!!!! FILE SORTING
     if subFoldersNeeded == True:
-        letter = None
+        Letter = None
         maxFolderSize = 1000
         currentSize = 0
         currentnum = 0
         currentFolder = GetUpperFilePath(FilePath) + "\\" + Letter
         lastfile = myList[0]
         for file in myList:
+            currentSize += 1
+            #Places file in folder with same letter if letter is the same as previous file
             if file[0].upper() == lastfile[0].upper():
-                currentSize += 1
+                Letter = file[0].upper()
                 if currentSize >= maxFolderSize:
                     currentnum += 1
                     currentSize = 0
                 if currentnum != 0:
-                    pass
-                else:
-                    pass
-                Letter = file[0].upper()
-                lastfile = file
+                    Letter = Letter + " - " + currentnum
+                copyFileFunc(,currentFolder)
+            #Handles files that do not start with a Letter
+            elif file[0].upper() not in list(string.ascii_lowercase):
+                Letter = "0"
+                if currentSize >= maxFolderSize:
+                    currentnum += 1
+                    currentSize = 0
+                if currentnum != 0:
+                    Letter = Letter + " - " + currentnum
+            #Changes letter and resets counter
+            elif file[0].upper() != lastfile[0].upper():
+                currentSize = 0
 
+            lastfile = file
                 #while currentSize <= maxFolderSize:
+def copyFileFunc(thisFolder, thisFile):
+    shutil.copy(thisFile, thisFolder)
+    return
+
+
+
+
+
+
 
     elif subFoldersNeeded == False:
         sys.stdout.write("\nWriting ")
@@ -97,7 +116,6 @@ def moveToFolders(myList, subFoldersNeeded,FilePath, anyExtraFiles):
     else:
         print("Im sorry, i dont understand!")
         pass
-
 
 #Functions for Progress bar, not intended for final use.
 def loadFileName(name):

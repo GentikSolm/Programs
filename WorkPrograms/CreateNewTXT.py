@@ -1,6 +1,4 @@
-import os
-import sys
-
+import os, sys
 def AskFileInfo():
 
     """
