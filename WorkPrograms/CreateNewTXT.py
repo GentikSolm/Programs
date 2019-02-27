@@ -1,34 +1,39 @@
-import os, sys
+import os, sys, string
+
+global ListOfGoodStrings
+ListOfGoodStrings = "0123456789()"
+global SongNumber
+SongNumber = 100000
 def AskFileInfo():
 
     """
     This function Grabs all data that will be used in list generation, such as root folder location, song number, and file name.
-    Song number is turned off because im not sure if that actually ever changes. Feel free to enable
     """
     #Grabs Filename
     global FileName
     FileName = input("What do you want the txt files name to be?\n-> ")
-    #Grabs Song Number
-    global SongNumber
-    SongNumber = ""
-    #SongNumber = input("Starting Song Number? (Press Enter for default)\n-> ")
-    if SongNumber == "":
-        SongNumber = 10000
-    else:
-        SongNumber = int(SongNumber)
     #Grabs File Path
     global FilePath
     FilePath = input("Where is the Song Folder Located? (Copy paste from File Explorer, then right click on console)\n-> ")
+    #Grabs desired file type
     global FileKind
     FileKind = input("What kind of file do you want to make?\n0 -> MP3 songlist\n1 -> 787 txt file\n-> ")
     return
 #Function for MP3 Song Book
+
+#SORTS TO Z FOLDER
 def createMp3txtFile(InPath):
-    #Mostly same as what is in 787 code, see line
     global FileList
     FileList = []
     for (root,dirs,files) in os.walk(InPath):
-        FileList = FileList + files
+        for file in files:
+            if file[0] not in list(string.ascii_lowercase) and file[0] not in list(ListOfGoodStrings):
+                file = file[1:]
+                FileList.append(file)
+            elif file == "":
+                pass
+            else:
+                FileList.append(file)
     NewSongFile = open(FileName+'.txt', mode='w')
     #Song number counter
     global i
@@ -62,8 +67,18 @@ def create787TxtDoc(InPath):
     global FileList
     FileList = []
     #Finding all files, and making Master list
+    #place 0 is file name, 1 is file path, 2 is file extension
     for (root,dirs,files) in os.walk(InPath):
-        FileList = FileList + files
+        for file in files:
+            if file[0].lower() not in list(string.ascii_lowercase) and file[0] not in list(ListOfGoodStrings):
+                Modfile = file[1:]
+                if Modfile[0] == " ":
+                    Modfile = Modfile[1:]
+                FileList.append([Modfile[:-4], os.path.join(root, file), file[-4:]])
+            elif file == "":
+                pass
+            else:
+                FileList.append([file[:-4], os.path.join(root, file), file[-4:]])
     #Opening txt file and writing info to it
     NewSongFile = open(FileName + '.txt', mode='w')
     #This is the header in the text document
@@ -71,7 +86,7 @@ def create787TxtDoc(InPath):
     #This starts the recusion through the list, in order, creating each line of the text doc.
     loadBar(FileList)
     count = 0
-    for entry in sorted(FileList):
+    for Sentry in sorted(FileList):
         count += percent
         if count >= 1:
             count = 0
@@ -79,23 +94,19 @@ def create787TxtDoc(InPath):
         nation = "2"
         songType = "8"
         language = "2"
-        Sentry = entry
-        #I had to reverse cdg and mp3, if you look, this if statement is actually placing the mp3 file location and not cdg, the other if loop is
-        #reversed the same way.
-        if ".cdg" in Sentry:
+        if ".mp3" == Sentry[2].lower():
             i += 1
-            splitSentry = Sentry.split(" - ")
+            splitSentry = Sentry[0].split(" - ")
             title = splitSentry[0]
-            artist = splitSentry[1][:-4]
-            MP3File = Sentry[:-4]+".mp3"
+            artist = splitSentry[1]
+            CDGFile = Sentry[1][:-4] +".cdg"
+            MP3File = Sentry[1]
             #This is the main part of the txt string generation. I formatted it so that it is easier to manipulate :)
-            NewSongFile.write("#{0}\t#{1}\t#{2}\t#{3}\t#{4}\t#{5}\t#{6}\t".format(str(SongNumber + i)[1:], nation, songType, language, title, artist,InPath + "\\" +  MP3File ))
-        #This attaches the cdg file to the end of the previous line, and starts a new line.
-        elif ".mp3" in Sentry:
-            CDGFile = Sentry[:-4]+".cdg"
-            NewSongFile.write("#{0}\n".format(InPath + "\\" + CDGFile))
-        else:
+            NewSongFile.write("#{0}\t#{1}\t#{2}\t#{3}\t#{4}\t#{5}\t#{6}\t#{7}\n".format(str(SongNumber + i)[1:], nation, songType, language, title, artist, MP3File, CDGFile))
+        elif ".cdg" == Sentry[2].lower():
             pass
+        else:
+            print("EXTRA FILES FOUND\nTYPE: {0}\nNAME: {1}\nLOCATION: {2}".format(Sentry[2]), Sentry[0], Sentry[1])
     #Closing the text doc
     NewSongFile.close()
     print("")
@@ -123,9 +134,8 @@ def moveBar():
     sys.stdout.write('\b->')
     sys.stdout.flush()
 #Calling all functions.
-
 AskFileInfo()
 #rename files for bad characters
 callwhichfun(FileKind)
 print("Done!")
-Exit = input("Press key to exit.")
+exit = input("Press enter to exit")
