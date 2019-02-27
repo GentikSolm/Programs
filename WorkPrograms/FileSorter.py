@@ -91,16 +91,6 @@ def copyToFolders(myList, subFoldersNeeded, FilePath, anyExtraFiles):
 
             lastfile = file
                 #while currentSize <= maxFolderSize:
-def copyFileFunc(thisFolder, thisFile):
-    shutil.copy(thisFile, thisFolder)
-    return
-
-
-
-
-
-
-
     elif subFoldersNeeded == False:
         sys.stdout.write("\nWriting ")
         for i in myList:
@@ -117,6 +107,10 @@ def copyFileFunc(thisFolder, thisFile):
         print("Im sorry, i dont understand!")
         pass
 
+def copyFileFunc(thisFolder, thisFile):
+    shutil.copy(thisFile, thisFolder)
+    return    
+    
 #Functions for Progress bar, not intended for final use.
 def loadFileName(name):
     sys.stdout.write(name)
