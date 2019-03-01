@@ -8,11 +8,9 @@ def WhereFilePath():
 #    Must have option to Not create sub folders
 #FileList = list(string.ascii_lowercase)
 #1000 per folder
-
 def parseInputs(Path, subFiles):
     #Make sure all inputs are good. Dont want to move the wrong folder / things
     pass
-
 def GetUpperFilePath(PathInput):
     global ListupperFilePath
     ListupperFilePath = PathInput.split("\\")
@@ -27,7 +25,6 @@ def GetUpperFilePath(PathInput):
     #     return ListupperFilePath[-2]+"\\"
     # else:
     return UpperFilePath + "\\New" + OrigionalFolderName
-
 def FileSorter(FilePath,ReqSub):
     sortedSongList = []
     ExtraFiles = []
@@ -54,8 +51,8 @@ def FileSorter(FilePath,ReqSub):
             elif ".cdg" not in file.lower() or ".mp3" not in file.lower():
                 ExtraFiles.append(folderName+"\\"+file)
     copyToFolders(sortedSongList, ReqSub, FilePath, ExtraFiles)
-    print("\nDone!")
 
+    print("\nDone!")
 def copyToFolders(myList, subFoldersNeeded, FilePath, anyExtraFiles):
     myList.sort()
 #NEED TO FINISH THESE STATEMENTS!!!!!!!!!!!!!! FILE SORTING
@@ -73,7 +70,7 @@ def copyToFolders(myList, subFoldersNeeded, FilePath, anyExtraFiles):
                 Letter = file[0].upper()
                 if currentSize >= maxFolderSize:
                     currentnum += 1
-                    currentSize = 0
+                    currentSize = 1
                 if currentnum != 0:
                     Letter = Letter + " - " + currentnum
                 copyFileFunc(,currentFolder)
@@ -106,11 +103,9 @@ def copyToFolders(myList, subFoldersNeeded, FilePath, anyExtraFiles):
     else:
         print("Im sorry, i dont understand!")
         pass
-
 def copyFileFunc(thisFolder, thisFile):
     shutil.copy(thisFile, thisFolder)
-    return    
-    
+    return
 #Functions for Progress bar, not intended for final use.
 def loadFileName(name):
     sys.stdout.write(name)

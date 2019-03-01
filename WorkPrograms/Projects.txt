@@ -1,0 +1,2 @@
+Manipulate CDG so that it removes brand of CDG without offsetting the audio and video track.
+  Maybe find a way to replace with our name?

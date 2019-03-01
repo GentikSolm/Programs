@@ -27,7 +27,7 @@ def createMp3txtFile(InPath):
     FileList = []
     for (root,dirs,files) in os.walk(InPath):
         for file in files:
-            if file[0] not in list(string.ascii_lowercase) and file[0] not in list(ListOfGoodStrings):
+            if file[0].lower() not in list(string.ascii_lowercase) and file[0] not in list(ListOfGoodStrings):
                 file = file[1:]
                 FileList.append(file)
             elif file == "":
@@ -86,14 +86,14 @@ def create787TxtDoc(InPath):
     #This starts the recusion through the list, in order, creating each line of the text doc.
     loadBar(FileList)
     count = 0
+    nation = "2"
+    songType = "8"
+    language = "2"
     for Sentry in sorted(FileList):
         count += percent
         if count >= 1:
             count = 0
             moveBar()
-        nation = "2"
-        songType = "8"
-        language = "2"
         if ".mp3" == Sentry[2].lower():
             i += 1
             splitSentry = Sentry[0].split(" - ")
@@ -107,6 +107,7 @@ def create787TxtDoc(InPath):
             pass
         else:
             print("EXTRA FILES FOUND\nTYPE: {0}\nNAME: {1}\nLOCATION: {2}".format(Sentry[2]), Sentry[0], Sentry[1])
+            pass
     #Closing the text doc
     NewSongFile.close()
     print("")
