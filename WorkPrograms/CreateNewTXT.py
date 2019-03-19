@@ -1,11 +1,9 @@
 import os, sys, string
-
 global ListOfGoodStrings
 ListOfGoodStrings = "0123456789()"
 global SongNumber
 SongNumber = 100000
 def AskFileInfo():
-
     """
     This function Grabs all data that will be used in list generation, such as root folder location, song number, and file name.
     """
@@ -26,14 +24,14 @@ def createMp3txtFile(InPath):
     global FileList
     FileList = []
     for (root,dirs,files) in os.walk(InPath):
+        tempFileList = []
         for file in files:
-            if file[0].lower() not in list(string.ascii_lowercase) and file[0] not in list(ListOfGoodStrings):
+            while file[0].lower() not in list(string.ascii_lowercase) and file[0] not in list(ListOfGoodStrings):
                 file = file[1:]
-                FileList.append(file)
-            elif file == "":
-                pass
-            else:
-                FileList.append(file)
+            tempFileList.append(file)
+        tempFileList.sort()
+        FileList.extend(tempFileList)
+
     NewSongFile = open(FileName+'.txt', mode='w')
     #Song number counter
     global i
@@ -41,7 +39,7 @@ def createMp3txtFile(InPath):
     #For loop generation of mp3 file list
     loadBar(FileList)
     count = 0
-    for entry in sorted(FileList):
+    for entry in FileList:
         count += percent
         if count >= 1:
             count = 0
@@ -51,7 +49,7 @@ def createMp3txtFile(InPath):
             num = 100000 + i
             Snum = str(num)[1:]
             Fname = entry[:-4].replace(" - ","|")
-            NewSongFile.write('{0}|{1}\n'.format(Snum, Fname))
+            NewSongFile.write(f'{Snum}|{Fname}\n')
     NewSongFile.close()
     print("")
     return
@@ -66,19 +64,18 @@ def create787TxtDoc(InPath):
     #Creating FileList
     global FileList
     FileList = []
+    global badlist
+    badlist = []
     #Finding all files, and making Master list
     #place 0 is file name, 1 is file path, 2 is file extension
     for (root,dirs,files) in os.walk(InPath):
         for file in files:
-            if file[0].lower() not in list(string.ascii_lowercase) and file[0] not in list(ListOfGoodStrings):
-                Modfile = file[1:]
-                if Modfile[0] == " ":
-                    Modfile = Modfile[1:]
-                FileList.append([Modfile[:-4], os.path.join(root, file), file[-4:]])
-            elif file == "":
-                pass
-            else:
+            while file[0].lower() not in list(string.ascii_lowercase) and file[0] not in list(ListOfGoodStrings):
+                file = file[1:]
+            if file[0].lower() in list(string.ascii_lowercase) or file[0] in list(ListOfGoodStrings):
                 FileList.append([file[:-4], os.path.join(root, file), file[-4:]])
+            else:
+                badlist.append(os.path.join(root, file))
     #Opening txt file and writing info to it
     NewSongFile = open(FileName + '.txt', mode='w')
     #This is the header in the text document
@@ -86,14 +83,14 @@ def create787TxtDoc(InPath):
     #This starts the recusion through the list, in order, creating each line of the text doc.
     loadBar(FileList)
     count = 0
-    nation = "2"
-    songType = "8"
-    language = "2"
-    for Sentry in sorted(FileList):
+    for Sentry in FileList.sort():
         count += percent
         if count >= 1:
             count = 0
             moveBar()
+        nation = "2"
+        songType = "8"
+        language = "2"
         if ".mp3" == Sentry[2].lower():
             i += 1
             splitSentry = Sentry[0].split(" - ")
@@ -102,25 +99,31 @@ def create787TxtDoc(InPath):
             CDGFile = Sentry[1][:-4] +".cdg"
             MP3File = Sentry[1]
             #This is the main part of the txt string generation. I formatted it so that it is easier to manipulate :)
-            NewSongFile.write("#{0}\t#{1}\t#{2}\t#{3}\t#{4}\t#{5}\t#{6}\t#{7}\n".format(str(SongNumber + i)[1:], nation, songType, language, title, artist, MP3File, CDGFile))
+            NewSongFile.write(f"#{str(SongNumber + i)[1:]}\t#{nation}\t#{songType}\t#{language}\t#{title}\t#{artist}\t#{MP3File}\t#{CDGFile}\n")
         elif ".cdg" == Sentry[2].lower():
             pass
         else:
-            print("EXTRA FILES FOUND\nTYPE: {0}\nNAME: {1}\nLOCATION: {2}".format(Sentry[2]), Sentry[0], Sentry[1])
-            pass
+            print(f"EXTRA FILES FOUND\nTYPE: {Sentry[2]}\nNAME: {Sentry[0]}\nLOCATION: {Sentry[1]}")
     #Closing the text doc
     NewSongFile.close()
-    print("")
+    if len(badlist) != 0:
+        print("FOUND BAD ENTRIES:")
+        for i in badlist:
+            print(i)
+    else:
+        print("\nDone!")
     return
 def callwhichfun(FileKindNum):
     if FileKindNum == "0":
         createMp3txtFile(FilePath)
-        #replaceChar()
+        return False
     elif FileKindNum == "1":
         create787TxtDoc(FilePath)
-        #replaceChar()
+        return False
     else:
         print('I dont understand! Please input 0 or 1!')
+        FileKind = input("-> ")
+        return True
     return
 def loadBar(size):
     global length
@@ -128,15 +131,18 @@ def loadBar(size):
     global percent
     percent = length/len(size)
     print("Writing to file")
+    sys.stdout.flush()
     sys.stdout.write("[{0}]".format(" " * (length)))
     sys.stdout.flush()
     sys.stdout.write("\b" * (length))
+    sys.stdout.flush()
 def moveBar():
     sys.stdout.write('\b->')
     sys.stdout.flush()
 #Calling all functions.
 AskFileInfo()
-#rename files for bad characters
-callwhichfun(FileKind)
-print("Done!")
+while callwhichfun(FileKind) == True:
+     callwhichfun(FileKind)
+
+#callwhichfun(FileKind)
 exit = input("Press enter to exit")
