@@ -24,12 +24,13 @@ def createMp3txtFile(InPath):
     global FileList
     FileList = []
     for (root,dirs,files) in os.walk(InPath):
+        dirs.sort()
         tempFileList = []
         for file in files:
             while file[0].lower() not in list(string.ascii_lowercase) and file[0] not in list(ListOfGoodStrings):
                 file = file[1:]
             tempFileList.append(file)
-        tempFileList.sort()
+        tempFileList.sort(key=str.lower)
         FileList.extend(tempFileList)
 
     NewSongFile = open(FileName+'.txt', mode='w')
