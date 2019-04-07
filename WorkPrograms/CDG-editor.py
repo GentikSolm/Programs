@@ -12,4 +12,3 @@ overlay_file = ffmpeg.input(path + song)
     .output('out.mp4')
     .run()
 )
-#Boi
