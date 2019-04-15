@@ -27,8 +27,6 @@ def createMp3txtFile(InPath):
         dirs.sort()
         tempFileList = []
         for file in files:
-            while file[0].lower() not in list(string.ascii_lowercase) and file[0] not in list(ListOfGoodStrings):
-                file = file[1:]
             tempFileList.append(file)
         tempFileList.sort(key=str.lower)
         FileList.extend(tempFileList)
@@ -50,6 +48,8 @@ def createMp3txtFile(InPath):
             num = 100000 + i
             Snum = str(num)[1:]
             Fname = entry[:-4].replace(" - ","|")
+            while Fname[0].lower() not in list(string.ascii_lowercase) and Fname[0] not in list(ListOfGoodStrings):
+                Fname = Fname[1:]
             NewSongFile.write(f'{Snum}|{Fname}\n')
     NewSongFile.close()
     print("")
