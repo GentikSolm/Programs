@@ -147,3 +147,7 @@ while callwhichfun(FileKind) == True:
 
 #callwhichfun(FileKind)
 exit = input("Press enter to exit")
+
+
+# TODO
+# Redo callwhichfun so that it isnt nesting
