@@ -84,15 +84,16 @@ def create787TxtDoc(InPath):
     #This starts the recusion through the list, in order, creating each line of the text doc.
     loadBar(FileList)
     count = 0
-    for Sentry in FileList.sort():
-        count += percent
-        if count >= 1:
-            count = 0
-            moveBar()
+    #FileList.sort(key=str.lower)
+    for Sentry in FileList:
         nation = "2"
         songType = "8"
         language = "2"
         if ".mp3" == Sentry[2].lower():
+            count += percent
+            if count >= 1:
+                count = 0
+                moveBar()
             i += 1
             splitSentry = Sentry[0].split(" - ")
             title = splitSentry[0]
@@ -129,8 +130,12 @@ def callwhichfun(FileKindNum):
 def loadBar(size):
     global length
     length = 30
+    lensize = len(size)
     global percent
-    percent = length/len(size)
+    if lensize/2 < 30:
+        percent = 0
+        return
+    percent = length/lensize
     print("Writing to file")
     sys.stdout.flush()
     sys.stdout.write("[{0}]".format(" " * (length)))
@@ -147,7 +152,3 @@ while callwhichfun(FileKind) == True:
 
 #callwhichfun(FileKind)
 exit = input("Press enter to exit")
-
-
-# TODO
-# Redo callwhichfun so that it isnt nesting
