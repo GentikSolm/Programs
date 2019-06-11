@@ -1,22 +1,17 @@
 import os, sys, string
-global ListOfGoodStrings
 ListOfGoodStrings = "0123456789()"
-global SongNumber
 SongNumber = 100000
 def AskFileInfo():
     """
     This function Grabs all data that will be used in list generation, such as root folder location, song number, and file name.
     """
     #Grabs Filename
-    global FileName
     FileName = input("What do you want the txt files name to be?\n-> ")
     #Grabs File Path
-    global FilePath
     FilePath = input("Where is the Song Folder Located? (Copy paste from File Explorer, then right click on console)\n-> ")
     #Grabs desired file type
-    global FileKind
     FileKind = input("What kind of file do you want to make?\n0 -> MP3 songlist\n1 -> 787 txt file\n-> ")
-    return
+    return (FileName, FilePath, FileKind)
 #Function for MP3 Song Book
 
 #SORTS TO Z FOLDER
@@ -63,9 +58,7 @@ def create787TxtDoc(InPath):
     therefore when plugged into the for loop, get combined into a master list to be sorted and used later in function
     """
     #Creating FileList
-    global FileList
     FileList = []
-    global badlist
     badlist = []
     #Finding all files, and making Master list
     #place 0 is file name, 1 is file path, 2 is file extension
@@ -89,11 +82,12 @@ def create787TxtDoc(InPath):
         nation = "2"
         songType = "8"
         language = "2"
+        count += percent
+        if count >= 1:
+            count = 0
+            moveBar()
         if ".mp3" == Sentry[2].lower():
-            count += percent
-            if count >= 1:
-                count = 0
-                moveBar()
+
             i += 1
             splitSentry = Sentry[0].split(" - ")
             title = splitSentry[0]
@@ -105,11 +99,11 @@ def create787TxtDoc(InPath):
         elif ".cdg" == Sentry[2].lower():
             pass
         else:
-            print(f"EXTRA FILES FOUND\nTYPE: {Sentry[2]}\nNAME: {Sentry[0]}\nLOCATION: {Sentry[1]}")
+            badlist.append(f"TYPE: {Sentry[2]}\nNAME: {Sentry[0]}\nLOCATION: {Sentry[1]}")
     #Closing the text doc
     NewSongFile.close()
     if len(badlist) != 0:
-        print("FOUND BAD ENTRIES:")
+        print("\nFOUND BAD ENTRIES:")
         for i in badlist:
             print(i)
     else:
@@ -146,7 +140,7 @@ def moveBar():
     sys.stdout.write('\b->')
     sys.stdout.flush()
 #Calling all functions.
-AskFileInfo()
+FileName, FilePath, FileKind = AskFileInfo()
 while callwhichfun(FileKind) == True:
      callwhichfun(FileKind)
 
