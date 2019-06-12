@@ -50,7 +50,7 @@ def gamble_sim(capital = int(input('How much money do you have?: ')) , bet_amoun
             capital = bet_amount * prize
             return capital
 #1a) Examin what this is doing as a function call, do you really need to pass in the other nested functions?, refer to comment 1b
-gamble_sim(calc_prize_five(play_slot_machine()))
+gamble_sim()
 
 #there should be no main program or test code in this file
 #and especially NO INPUT LINES
