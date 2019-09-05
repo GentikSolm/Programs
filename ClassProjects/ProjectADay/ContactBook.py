@@ -18,5 +18,16 @@ List of functions that are non-command oriented:
     save function to acces and manage contacts in seperate .json file.
 
 '''
+def help():
+    print("Here is a list of all the commands and their functions")
+    return True
+
+
+
+print("Starting up contact book\n. . .")
+print("Type HELP for a list of commands")
 while True:
-    pass
+    command = input(">> ")
+    if command.lower() == "help":
+        helpComm()
+    elif
