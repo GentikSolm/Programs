@@ -51,21 +51,29 @@ class Fraction:
     return Fraction(num, den)
 
   def __lt__(self, other):
-    first = self.to_float()
-    second = other.to_float()
-    return first < second
+      if type(other) == type(None):
+          return False
+      first = self.to_float()
+      second = other.to_float()
+      return first < second
 
   def __gt__(self, other):
-      return self > other
+      if type(other) == type(None):
+           return False
+      first = self.to_float()
+      second = other.to_float()
+      return first > second
     #TODO replace pass with your implementation,
     #returning True if self is greater than other and
     #False otherwise.
 
   def __eq__(self, other):
-      if self == other:
-          return True
-      else:
+      if type(other) == type(None):
           return False
+      first = self.to_float()
+      print(other)
+      second = other.to_float()
+      return first == second
     #TODO replace pass with your implementation,
     #returning True if self equal to other and
     #False otherwise. Note that fractions are
@@ -91,19 +99,20 @@ if __name__ == '__main__':
     frac2 = Fraction(69,420)
     frac3 = Fraction(2,4)
     frac4 = Fraction(1,2)
-    print(frac2 < frac3)
-    # farr.append(1/2)
-    # farr.append(2/3)
-    # farr.append(3/6)
-    # farr.append(4/10)
-    # farr.append(5/4)
-    # ftree = Binary_Search_Tree()
-    # ftree.insert_element(farr[4])
-    # ftree.insert_element(farr[2])
-    # ftree.insert_element(farr[0])
-    # ftree.insert_element(farr[3])
-    # ftree.insert_element(farr[1])
+    farr.append(frac)
+    farr.append(frac2)
+    farr.append(frac3)
+    farr.append(frac4)
+    print(farr[2])
+    ftree = bst.Binary_Search_Tree()
+    ftree.insert_element(farr[2])
     # print(str(ftree()))
+    print(farr[0])
+    print(ftree)
+    ftree.insert_element(farr[0])
+    ftree.insert_element(farr[3])
+    ftree.insert_element(farr[1])
+    print(str(ftree))
   #TODO create a bunch of fraction objects and store them in an array.
   #Then insert each item from the array into a balanced BST.
   #Then get the in-order array representation of the BST using
